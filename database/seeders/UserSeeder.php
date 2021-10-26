@@ -12,21 +12,36 @@ class UserSeeder extends Seeder{
 
     public function run(){
         $faker = Faker::create('id_ID');
-        $admin = [
-            'name' => 'Admin',
-            'email' => 'admin@demo.com',
-            // 'phone' => $faker->phoneNumber(),
-            // 'date_of_birth' => $faker->dateTimeBetween(Carbon::now()->subYear(30), Carbon::now()->subYear(18)),
-            // 'active_status' => 1,
-            // 'address' => $faker->address(),
-            'level' => 0,
-            // 'gender' => rand(0,1),
-            // 'photo' => 'blank_user.png',
-            'email_verified_at' => now(),
-            'password' => bcrypt('asdasdasd'), // password
-            'remember_token' => Str::random(10),
+        $users = [
+            [
+                'nama' => 'Admin',
+                'email' => 'admin@demo.com',
+                'level' => 'admin',
+                'email_verified_at' => now(),
+                'password' => bcrypt('asdasdasd'), // password
+                'remember_token' => Str::random(10),
+            ],
+            [
+                'nama' => 'Staff',
+                'email' => 'staff@demo.com',
+                'level' => 'staff',
+                'email_verified_at' => now(),
+                'password' => bcrypt('asdasdasd'), // password
+                'remember_token' => Str::random(10),
+            ],
+            [
+                'nama' => 'Kepala Desa',
+                'email' => 'kades@demo.com',
+                'level' => 'kades',
+                'email_verified_at' => now(),
+                'password' => bcrypt('asdasdasd'), // password
+                'remember_token' => Str::random(10),
+            ],
         ];
 
-        User::updateOrCreate(['email' => $admin['email']], $admin);
+        foreach($users as $user){
+            User::updateOrCreate(['email' => $user['email']], $user);
+        }
+
     }
 }

@@ -2,32 +2,23 @@
 
 namespace App\DataTables;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Yajra\DataTables\DataTables;
 
 class UserDataTable{
 
-    static public function set($package){
-        return DataTables::of($package)
-            // ->editColumn('type', function($package){
-            //     if($package->type == 0){
-            //         return 'Kiloan';
-            //     }
-
-            //     return 'Satuan';
-            // })
-            ->addColumn('action', function($package){
-                // $deleteUrl = "'".route('package.destroy', $package->id)."', 'packageDatatable'";
-                $deleteUrl = "asdasd";
-
-                // return  '<div class="btn-group">'.
-                //     '<a href="'.route('package.edit',$package->id).'" class="btn btn-warning" ><i class="menu-icon fa fa-pencil-alt"></i></a>'.
-                //     '<a href="#" onclick="deleteModel('.$deleteUrl.',)" class="btn btn-danger" ><i class="menu-icon fa fa-trash"></i></a>'.
-                // '</div>';
+    static public function set($user){
+        return DataTables::of($user)
+            ->editColumn('level', function($user){
+                return userRole($user->level);
+            })
+            ->addColumn('action', function($user){
+                $deleteUrl = "'".route('user.destroy', $user->id)."', 'userDatatable'";
 
                 return  '<div class="btn-group">'.
-                    '<a href="" class="btn btn-warning" ><i class="menu-icon fa fa-pencil-alt"></i></a>'.
-                    '<a href="#" onclick="deleteModel('.$deleteUrl.')" class="btn btn-danger" ><i class="menu-icon fa fa-trash"></i></a>'.
+                    '<a href="'. route('user.edit', $user->id) .'" class="btn btn-warning" >Edit</a>'.
+                    '<a href="#" onclick="deleteModel('.$deleteUrl.')" class="btn btn-danger" >Hapus</a>'.
                 '</div>';
             })->addIndexColumn()->rawColumns(['action'])->make(true);
     }

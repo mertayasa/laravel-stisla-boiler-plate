@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TinyUploadController;
+use App\Http\Controllers\UserController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -39,7 +40,21 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::group(['middleware' => 'role:first_role,second_role'], function () {
+        // masukin route disini cuy
+    });
 
+    Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+        
+        Route::group(['middleware' => 'role:admin'], function () {
+            Route::get('create', [UserController::class, 'create'])->name('create');
+            Route::post('store', [UserController::class, 'store'])->name('store');
+            Route::delete('destroy/{user}', [UserController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('edit/{user}', [UserController::class, 'edit'])->name('edit');
+        Route::patch('update/{user}', [UserController::class, 'update'])->name('update');
+        Route::get('datatable', [UserController::class, 'datatable'])->name('datatable');
     });
 
 });
